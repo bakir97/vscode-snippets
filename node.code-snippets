@@ -1,0 +1,313 @@
+{
+  // Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "express": {
+    "prefix": "express",
+    "body": ["const express = require('express');"],
+    "description": ""
+  },
+  "mongoose": {
+    "prefix": "mongoose",
+    "body": ["const mongoose= require('mongoose');"],
+    "description": ""
+  },
+  "bodyparser": {
+    "prefix": "bodyparser",
+    "body": [
+      "const bodyParser = require(\"body-parser\");",
+      "app.use(bodyParser.urlencoded({ extended: false }));",
+      "app.use(bodyParser.json());"
+    ],
+    "description": ""
+  },
+  "mongooseconnect": {
+    "prefix": "mongooseconnect",
+    "body": [
+      "const mongoose = require(\"mongoose\");",
+      "mongoose.connect(${1:mongodb});"
+    ],
+    "description": ""
+  },
+  "Schemamongoose": {
+    "prefix": "Schemamongoose",
+    "body": [
+      "const mongoose = require(\"mongoose\");",
+      "const Schema = mongoose.Schema;",
+      "",
+      "const ${1:example} = new Schema({",
+      " ",
+      "});",
+      "mongoose.model(${2:example}, ${1:example});",
+      ""
+    ],
+    "description": ""
+  },
+  "passportjwt": {
+    "prefix": "passportjwt",
+    "body": [
+      "const JwtStrategy = require(\"passport-jwt\").Strategy;",
+      "const ExtractJwt = require(\"passport-jwt\").ExtractJwt;",
+      "const mongoose = require(\"mongoose\");",
+      "const ${1:example}= mongoose.model(\"${2:example}\");",
+      "const keys = require(\"${3:example}\");",
+      "",
+      "const opts = {};",
+      "opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();",
+      "opts.secretOrKey = keys.${4:jwtSecret};",
+      "module.exports = passport => {",
+      "  passport.use(",
+      "    new JwtStrategy(opts, async (jwt_payload, done) => {",
+      "      const ${5:example}= await ${1:example}.findById(jwt_payload.id);",
+      "      if (${5:example}) {",
+      "        return done(null, user);",
+      "      }",
+      "      return done(null, false);",
+      "    })",
+      "  );",
+      "};"
+    ],
+    "description": ""
+  },
+  "jwtsign": {
+    "prefix": "jwtsign",
+    "body": [
+      "const keys = require(\"${1:example}\");",
+      "const jwt = require(\"jsonwebtoken\");",
+      "const payload = {};",
+      "    return jwt.sign(",
+      "      payload,",
+      "      ${1:jwtSecret},",
+      "      { expiresIn: 3600 },",
+      "      (err, token) => {",
+      "        res.json({",
+      "          success: true,",
+      "          token: \"Bearer \" + token",
+      "        });",
+      "      }",
+      "    );"
+    ],
+    "description": ""
+  },
+  "bcryptpassword": {
+    "prefix": "bcryptpassword",
+    "body": [
+      "const bcrypt = require(\"bcryptjs\");",
+      "const salt = await bcrypt.genSalt(10);",
+      "  const passwordHashed = await bcrypt.hash(${1:reqPassword}, salt);",
+      "  ${2:reqPassword}.password = passwordHashed;",
+      "  ${2:reqPassword}.save();",
+      "  res.json(${2:reqPassword});"
+    ],
+    "description": ""
+  },
+  "comparebcrypt": {
+    "prefix": "bcryptcompare",
+    "body": [
+      "const bcrypt = require(\"bcryptjs\");",
+      "const ${1:example}= await bcrypt.compare(${2:unesenaSifra}, user.password);"
+    ],
+    "description": ""
+  },
+  "expressregistracija": {
+    "prefix": "registracijaexpress",
+    "body": [
+      "const express = require(\"express\");",
+      "const router = express.Router();",
+      "const mongoose = require(\"mongoose\");",
+      "const bcrypt = require(\"bcryptjs\");",
+      "const ${2:Model} = mongoose.model(\"${1:model}\");",
+      "",
+      "router.post(\"/\", async (req, res) => {",
+      "  const noviUser = await ${2:Model}.findOne({ email: req.body.email });",
+      "  if (noviUser) {",
+      "    return res.status(400).json({ email: \"email vec postoji\" });",
+      "  }",
+      "  const registruj = await new ${2:Model}({",
+      "${3:podaci}",
+      "  });",
+      "",
+      "  const salt = await bcrypt.genSalt(10);",
+      "  const passwordHashed = await bcrypt.hash(registruj.password, salt);",
+      "  registruj.password = passwordHashed;",
+      "  registruj.save();",
+      "  res.json(registruj);",
+      "});",
+      "module.exports = router;",
+      ""
+    ],
+    "description": ""
+  },
+  "loginexpress": {
+    "prefix": "loginexpress",
+    "body": [
+      "const express = require(\"express\");",
+      "const router = express.Router();",
+      "const mongoose = require(\"mongoose\");",
+      "const User = mongoose.model(\"${1:example}\");",
+      "const bcrypt = require(\"bcryptjs\");",
+      "const keys = require(\"${2:example}\");",
+      "const jwt = require(\"jsonwebtoken\");",
+      "router.post(\"/\", async (req, res) => {",
+      "  const email = req.body.email;",
+      "  const password = req.body.password;",
+      "  const user = await User.findOne({",
+      "    email",
+      "  });",
+      "  if (!user) {",
+      "    return res.status(404).json({",
+      "      email: \"nema tog emaila\"",
+      "    });",
+      "  }",
+      "  const provjera = await bcrypt.compare(password, user.password);",
+      "  if (provjera) {",
+      "    const payload = {",
+      "      id: user.id,",
+      "      ime: user.ime,",
+      "      email: user.email",
+      "    };",
+      "    return jwt.sign(",
+      "      payload,",
+      "      keys.${3:secret},",
+      "      { expiresIn: 3600 },",
+      "      (err, token) => {",
+      "        res.json({",
+      "          success: true,",
+      "          token: \"Bearer \" + token",
+      "        });",
+      "      }",
+      "    );",
+      "  }",
+      "  return res.status(400).json({ password: \"nije tacan\" });",
+      "});",
+      "module.exports = router;",
+      ""
+    ],
+    "description": ""
+  },
+  "expressrouter": {
+    "prefix": "expressrouter",
+    "body": [
+      "const express = require(\"express\");",
+      "const router = express.Router();",
+      "module.exports = router;",
+      ""
+    ],
+    "description": ""
+  },
+  "expressapp": {
+    "prefix": "appexpress",
+    "body": ["const express = require('express');", "const app = express();"],
+    "description": ""
+  },
+  "expressuserouter": {
+    "prefix": "expressuserouter",
+    "body": [
+      "const ${1:example}= require(\"${2:example}\");",
+      "app.use(\"${3:example}\", ${1:example});"
+    ],
+    "description": ""
+  },
+  "passportinit": {
+    "prefix": "passportinit",
+    "body": [
+      "const passport = require(\"passport\");",
+      "app.use(passport.initialize());"
+    ],
+    "description": ""
+  },
+  "epdateandcreateprofile": {
+    "prefix": "updateandcreateprofileexpress",
+    "body": [
+      "const express = require(\"express\");",
+      "const router = express.Router();",
+      "const passport = require(\"passport\");",
+      "const mongoose = require(\"mongoose\");",
+      "Profil = mongoose.model(\"profil\");",
+      "User = mongoose.model(\"${1:example}\");",
+      "router.post(",
+      "  \"/\",",
+      "  passport.authenticate(\"jwt\", { session: false }),",
+      "  async (req, res) => {",
+      "    const profileFields = {};",
+      "    profileFields.user = req.user.id;",
+      "    profileFields.username = req.user.username;",
+      "    profileFields.mjesto = req.body.mjesto;",
+      "    profileFields.zanimanje = req.body.zanimanje;",
+      "    const user = await Profil.findOne({ user: req.user.id });",
+      "    if (user) {",
+      "      const izmjena = await Profil.findOneAndUpdate(",
+      "        {",
+      "          user: req.user.id",
+      "        },",
+      "        { $set: profileFields },",
+      "        { new: true }",
+      "      );",
+      "      return res.json(izmjena);",
+      "    }",
+      "    const noviProfil = await new Profil(profileFields);",
+      "    noviProfil.save();",
+      "    res.json(noviProfil);",
+      "  }",
+      ");"
+    ],
+    "description": ""
+  },
+  "deleteprofileexpress": {
+    "prefix": "deleteprofileexpress",
+    "body": [
+      "router.delete(",
+      "  \"/obrisi/:id\",",
+      "  passport.authenticate(\"jwt\", { session: false }),",
+      "  async (req, res) => {",
+      "    const profile = await Profil.findOne({",
+      "      user: req.user.id",
+      "    });",
+      "    const filtriraj = profile.auto.map(item => item.id).indexOf(req.params.id);",
+      "    await profile.auto.splice(filtriraj, 1);",
+      "    profile.save();",
+      "    res.json(profile);",
+      "  }",
+      ");"
+    ],
+    "description": ""
+  },
+  "passportauthexpress": {
+    "prefix": "passportauthexpress",
+    "body": [
+      "router.${1:vrsta}(",
+      "  \"${2:route}\",",
+      "  passport.authenticate(\"${3:vrsta provjere}\", { session: false }),",
+      "  async (req, res) => {}",
+      ");"
+    ],
+    "description": ""
+  },
+  "expressrouteroperacija": {
+    "prefix": "expressrouteroperacija",
+    "body": [
+      "router.${1:operacija}('${2:route}',async (req,res)=>{",
+      "${3:example}",
+      "})"
+    ],
+    "description": ""
+  },
+  "mongoosemmodel": {
+    "prefix": "mongoosemmodel",
+    "body": ["const ${1:example}= mongoose.model(\"${2:example}\")"],
+    "description": ""
+  }
+}

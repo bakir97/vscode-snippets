@@ -1,0 +1,259 @@
+{
+  // Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "ReduxThunk": {
+    "prefix": "ReduxThunk",
+    "body": [
+      "export const ${1:example}= () => async dispatch=>{",
+      "${2:example}",
+      "}"
+    ],
+    "description": "ReduxThunk"
+  },
+  "configreduxstore": {
+    "prefix": "configreduxstore",
+    "body": [
+      "import { createStore,applyMiddleware} from 'redux';",
+      "import { composeWithDevTools } from 'redux-devtools-extension'",
+      "import rootReducer from '${1:example}';",
+      "import thunk  from 'redux-thunk'",
+      "",
+      "export const configureStore= (preloadedState) => {",
+      " const middlewares=[thunk];",
+      " const middlewaresEnhancer = applyMiddleware(...middlewares);",
+      " const storeEnhancer=[middlewaresEnhancer];",
+      " const composedEnhancer=composeWithDevTools(...storeEnhancer);",
+      " const store= createStore(",
+      "     rootReducer,",
+      "     preloadedState,",
+      "     composedEnhancer",
+      " );",
+      " return store",
+      "  ",
+      "}",
+      ""
+    ],
+    "description": ""
+  },
+  "rootReducer": {
+    "prefix": "rootReducer",
+    "body": [
+      "import { combineReducers } from \"redux\";",
+      "export default rootReducer = combineReducers({",
+      "    ",
+      "});",
+      ""
+    ],
+    "description": ""
+  },
+  "reduxcomponent": {
+    "prefix": "reduxcomponent",
+    "body": [
+      "import React, { Component } from 'react'",
+      "import { connect } from 'react-redux'",
+      "",
+      "export class ${1:example}extends Component {",
+      "  render() {",
+      "    return (",
+      "      <div>",
+      "        ",
+      "      </div>",
+      "    )",
+      "  }",
+      "}",
+      "",
+      "const mapStateToProps = (state) => ({",
+      "  ",
+      "})",
+      "",
+      "const mapDispatchToProps = {",
+      "  ",
+      "}",
+      "",
+      "export default connect(mapStateToProps, mapDispatchToProps)(${1:example})",
+      ""
+    ],
+    "description": ""
+  },
+  "pocetnoreact": {
+    "prefix": "pocetnoreact",
+    "body": [
+      "import React, { Component } from 'react'",
+      "import React from \"react\";",
+      "import ReactDOM from \"react-dom\";",
+      "import App from \"./App\";",
+      "import registerServiceWorker from \"./registerServiceWorker\";",
+      "import { BrowserRouter as Router } from \"react-router-dom\";",
+      "import { Provider } from \"react-redux\";",
+      "import { configureStore } from \"${1:example}\";",
+      "const store = configureStore();",
+      "ReactDOM.render(",
+      "  <Provider store={store}>",
+      "    <Router>",
+      "      <App />",
+      "    </Router>",
+      "  </Provider>,",
+      "  document.getElementById(\"root\")",
+      ");",
+      "registerServiceWorker();",
+      ""
+    ],
+    "description": ""
+  },
+  "fieldform": {
+    "prefix": "fieldform",
+    "body": [
+      "<Field type=\"${1:example}\" name=\"${2:example}\" component=${3:example} />"
+    ],
+    "description": ""
+  },
+  "isEpmpty": {
+    "prefix": "isEmpty",
+    "body": [
+      "const isEmpty = value =>",
+      "  value === undefined ||",
+      "  value === null ||",
+      "  (typeof value === \"object\" && Object.keys(value).length === 0) ||",
+      "  (typeof value === \"string\" && value.trim().length === 0);",
+      "",
+      "export default isEmpty;",
+      ""
+    ],
+    "description": ""
+  },
+  "autologin": {
+    "prefix": "autologin",
+    "body": [
+      "import setAuthToken from \"${1:example}\";",
+      "import { setCurrentUser } from \"${2:example}\";",
+      "import jwt_decode from \"jwt-decode\";",
+      "if (localStorage.jwtToken) {",
+      "  setAuthToken(localStorage.jwtToken);",
+      "  const decoded = jwt_decode(localStorage.jwtToken);",
+      "  store.dispatch(setCurrentUser(decoded));",
+      "}"
+    ],
+    "description": ""
+  },
+  "loginreact": {
+    "prefix": "loginreact",
+    "body": [
+      "import { ERROR,SET_CURRENT_USER } from \"./actionsConstants\";",
+      "import axios from \"axios\";",
+      "import setAuthToken from \"${1:example}\";",
+      "import jwt_decode from \"jwt-decode\";",
+      "export const loginuser = data => async dispatch => {",
+      "  try {",
+      "    const res = await axios.post(\"http://localhost:5000/login\", data);",
+      "    localStorage.setItem(\"jwtToken\", res.data.token);",
+      "    setAuthToken(res.data.token);",
+      "    const decoded = jwt_decode(res.data.token);",
+      "    dispatch(setCurrentUser(decoded));",
+      "  } catch (error) {",
+      "    dispatch({",
+      "      type: ERROR,",
+      "      payload: error.response.data",
+      "    });",
+      "  }",
+      "};",
+      "export const setCurrentUser = decode => ({",
+      "  type: SET_CURRENT_USER,",
+      "  payload: decode",
+      "});"
+    ],
+    "description": ""
+  },
+  "formredux": {
+    "prefix": "formredux",
+    "body": [
+      "import React, { Component } from \"react\";",
+      "import { connect } from \"react-redux\";",
+      "import { reduxForm, Field } from \"redux-form\";",
+      "",
+      "export class Registracija extends Component {",
+      "  render() {",
+      "    return (",
+      "      <div>",
+      "        <Field type=${1:example} name=${2:example} component=${3:example} />",
+      "      </div>",
+      "    );",
+      "  }",
+      "}",
+      "",
+      "const mapStateToProps = state => ({});",
+      "",
+      "const mapDispatchToProps = {};",
+      "",
+      "export default connect(",
+      "  mapStateToProps,",
+      "  mapDispatchToProps",
+      ")(reduxForm({ form: \"registracija\" })(Registracija));",
+      ""
+    ],
+    "description": ""
+  },
+  "authaxiosreact": {
+    "prefix": "authaxiosreact",
+    "body": [
+      "import axios from \"axios\";",
+      "export default token => {",
+      "  if (token) {",
+      "    axios.defaults.headers.common[\"Authorization\"] = token;",
+      "  } else {",
+      "    delete axios.defaults.headers.common[\"Authorization\"];",
+      "  }",
+      "};",
+      ""
+    ],
+    "description": ""
+  },
+  "logoutreact": {
+    "prefix": "logout",
+    "body": [
+      "import { ${1:akcija} } from \"${2:akcijamjesto}\";",
+      "import setAuthToken from \"${3:authmjesto}\";",
+      "export const logout = () => async dispatch => {",
+      "  localStorage.removeItem(\"jwtToken\");",
+      "  setAuthToken(false);",
+      "  dispatch(${1:akcija}({}));",
+      "};"
+    ],
+    "description": ""
+  },
+  "MaterialComponent": {
+    "prefix": "materialcomponent",
+    "body": [
+      "import React, { Component } from \"react\";",
+      "import { withStyles } from \"@material-ui/core/styles\";",
+      "",
+      "const styles = {};",
+      "",
+      "class ${1:example} extends Component {",
+      "  render() {",
+      "    const { classes } = this.props;",
+      "    const { open } = this.state;",
+      "    return (<div>",
+      "            ${2:example}",
+      "           </div>)",
+      "  }",
+      "}",
+      "",
+      "export default withStyles(styles)(${1:example})"
+    ],
+    "description": "MaterialComponent"
+  }
+}
